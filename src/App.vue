@@ -1,27 +1,20 @@
 <template>
   <div id="app">
-    <HelloWorld/>
+    <appHeader store_name="Sadda Adda" store_desc="Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life" style="padding:20px" />
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import appHeader from "./components/header.vue";
 
 export default {
   name: "app",
   components: {
-    HelloWorld
+    appHeader
   }
 };
 </script>
 
 <style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
