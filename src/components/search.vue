@@ -53,8 +53,8 @@ export default {
             {   
                 
                 // fetching menu items   
-                axios .get('https://api.jsonbin.io/b/5ca981f48b8d1301a25a85ed/1')
-                .then(response => (this.dish = response.data));
+                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5')
+                .then(response => (this.dish = response.data["items"]));
                
             },
   data () {
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     runSearch () {
-      this.$search('John', this.dish, { keys: ['type'] }).then(result => {
+      this.$search('John', this.dish, { keys: ['category'] }).then(result => {
         this.results = result
       })
     }
