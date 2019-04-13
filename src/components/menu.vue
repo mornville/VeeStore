@@ -145,13 +145,10 @@
                         localStorage.removeItem('sum');
                     }
                 } 
-                // fetching menu items   
+                // fetching menu items and filtering by category  
                 axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5')
-                .then(response => (this.starter = response.data["items"]));
-                //filtering by type
-                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5')
-                .then(response => (this.type = _.uniqBy(response.data["items"],'category')));
-
+                .then(response => (this.starter = response.data["items"],this.type = _.uniqBy(this.starter,'category')));
+         
             },
             name:'men',
             data() 
