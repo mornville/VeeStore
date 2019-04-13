@@ -11,7 +11,7 @@
                               <div class="col-md-12 text-center">
                                   <!-- typeName -->
                                     <ul class="nav nav-tabs text-center" role="tablist" style="">
-                                      <li role="presentation" class="active" style="text-transform:uppercase;"><a>{{ i.type }}</a></li>
+                                      <li role="presentation" class="active" style="text-transform:uppercase;"><a>{{ i.category }}</a></li>
                                     </ul>
                                   <!-- end -->
                               </div>
@@ -24,7 +24,7 @@
                           <div class="tab-content">
                               <div role="tabpanel" class="tab-pane active" id="main">
                                   <div class="row">
-                                      <div class="col-md-6" v-for="item in starter"  v-if="item['type']==i['type']">
+                                      <div class="col-md-6" v-for="item in starter"  v-if="item['category']==i['category']">
                                           <ul class="menu-dish" >
                                               <li>
                                                   <!-- dishImage -->
@@ -146,11 +146,11 @@
                     }
                 } 
                 // fetching menu items   
-                axios .get('https://api.jsonbin.io/b/5ca981f48b8d1301a25a85ed/1')
-                .then(response => (this.starter = response.data));
+                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5')
+                .then(response => (this.starter = response.data["items"]));
                 //filtering by type
-                axios .get('https://api.jsonbin.io/b/5ca981f48b8d1301a25a85ed/1')
-                .then(response => (this.type = _.uniqBy(response.data,'type')));
+                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5')
+                .then(response => (this.type = _.uniqBy(response.data["items"],'category')));
 
             },
             name:'men',
