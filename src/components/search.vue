@@ -22,7 +22,7 @@
                      
                 <ul class="list pl0 mt0 measure center" style="padding:40px">
                   <li class="flex items-center lh-copy pa3 ph0-l bb b--black-10" v-for="i in results" :key="i.name"> 
-                    <img class="w2 h2 w3-ns h3-ns br-100" src="assets/tikka.jpg" />
+                    <img class="w2 h2 w3-ns h3-ns br-100" src="static/store/VeeStore/assets/tikka.jpg" />
                       <div class="pl3 flex-auto">
                         <span class="f6 db black-70"> {{ i.name }}</span>
                        
