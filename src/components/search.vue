@@ -53,7 +53,7 @@ export default {
             {   
                 
                 // fetching menu items   
-                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5')
+                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5/1')
                 .then(response => (this.dish = response.data["items"]));
                
             },

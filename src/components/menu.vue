@@ -146,7 +146,7 @@
                     }
                 } 
                 // fetching menu items and filtering by category  
-                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5')
+                axios .get('https://api.jsonbin.io/b/5cb1f15826ddc84cea3e1de5/1')
                 .then(response => (this.starter = response.data["items"],this.type = _.uniqBy(this.starter,'category')));
          
             },
