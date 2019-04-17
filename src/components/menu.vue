@@ -62,11 +62,14 @@
             </div>
         </div>
 
-        <!-- Button trigger modal -->
+        <!-- begin::Button trigger modal -->
         <span style="color:black" id="mybutton" data-toggle="modal" data-target="#exampleModalLong"><span
                 class="cart-notif" style="box-shadow: 0 15px 30px 0 rgba(0,0,0,0.11),0 5px 15px 0 rgba(0,0,0,0.08);">{{ cart.length }}</span><i
                 class=" car fa fa-shopping-bag "></i></span>
-        <!-- Modal -->
+        <!-- end::Button trigger modal -->
+
+
+        <!-- begin::Modal -->
         <div class="modal fade" style="text-align:center" id="exampleModalLong" tabindex="-1" role="dialog"
              aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -103,17 +106,28 @@
                                 </div>
                             </li>
                         </ul>
+
+                        <!-- begin::input for customer pin -->
+                        <div v-show="customer_pin_enabled">
+                            <label for="customer_pin">Customer Pin - &nbsp;</label>
+                            <input type="number" v-model.number="customer_pin" id="customer_pin">
+                        </div>
+                        <!-- end::input for customer pin-->
+
                     </div>
 
                     <!-- modalFooter -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-small btn-round" data-dismiss="modal">BUY MORE?</button>
-                        <button class="btn-ghost btn-small btn-round">CHECKOUT (&#8377;{{ sum }})</button>
+                        <button @click="checkout()" class="btn-ghost btn-small btn-round">CHECKOUT (&#8377;{{ sum }})</button>
+
                     </div>
 
                 </div>
             </div>
         </div>
+        <!-- end::Modal -->
+
 
         <!-- Snackbar -->
         <div id="snackbar">Added To Cart</div>
@@ -131,6 +145,19 @@
     import axios from 'axios';
     import api_endpoint from '../api_endpoint.js';
     import Cookies from 'js-cookie';
+
+    function showSnackbar(text, time) {
+        // default value for time
+        if (!time) {
+            time = 1000;
+        }
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        x.innerText = text;
+        setTimeout(function() {
+            x.className = x.className.replace("show", "");
+        }, time);
+    }
 
     // For Django post requests
     var csrftoken = Cookies.get('csrftoken');
@@ -163,7 +190,7 @@
             }
             // fetching menu items and filtering by category
             axios.post(api_endpoint.store)
-                .then(response => (this.starter = response.data["items"], this.type = _.uniqBy(this.starter, 'category')));
+                .then(response => (this.starter = response.data["items"], this.type = _.uniqBy(this.starter, 'category'), this.store_hashid = response.data['store_hashid']));
 
         },
         name: 'men',
@@ -173,19 +200,32 @@
                 cart: [],
                 sum: 0,
                 type: [],
+                customer_pin_enabled: false,
+                checkout_enabled: true,
+                customer_pin:null,
+                store_hashid: null
             }
 
         },
+        watch: {
+            cart: {
+                handler: function() {
+                    if(this.cart.length > 0) {
+                        this.customer_pin_enabled = true;
+                    }
+                    else {
+                        this.customer_pin_enabled = false;
+                    }
+                },
+                deep:true
+            }
+        },
         methods:
             {
-                //addToCart
                 addToCart: function (item) {
-                    var x = document.getElementById("snackbar");
-                    x.className = "show";
-                    setTimeout(function () {
-                        x.className = x.className.replace("show", "");
-                    }, 1000);
-                    if (this.cart.length == 0) {
+                    showSnackbar("Added to cart", 1000);
+
+                    if (this.cart.length === 0) {
                         item.quantity += 1;
                         this.sum = this.sum + item.price;
                         this.cart.push(item);
@@ -224,7 +264,8 @@
 
                     return quant;
                 },
-                //removing from cart
+
+                // for removing item from cart
                 removeFromCart: function (item) {
                     console.log("executing this!!");
                     if (this.cart.length == 0) {
@@ -253,7 +294,8 @@
                     const parse = JSON.stringify(this.sum);
                     localStorage.setItem('sum', parse);
                 },
-                //for removing items from cart when quant = 0
+
+                // for removing items from cart when count = 0
                 removeZero() {
                     var newCart = [];
                     this.cart.forEach(element => {
@@ -263,7 +305,68 @@
                     });
                     this.cart = newCart;
                 },
-                //end methods
+
+                checkout: function() {
+                    /* Conditions for checkout:
+                    1. No. of items should be more than zero
+                    2. Show Customer PIN field, if 1 is true
+                    3. Verify the PIN
+                    4. Redirect to checkout successful page.
+                    */
+                    if(this.cart.length > 0 && this.customer_pin) {
+                        showSnackbar("Placing your order...");
+
+                        axios.post(api_endpoint.checkout, {
+                            "customer_pin": this.customer_pin,
+                            "order": JSON.stringify(this.cart),
+                            "store_hashid": this.store_hashid
+                        })
+                            .then(function (response) {
+                                if (response.data === "customer_does_not_exist") {
+                                    showSnackbar("Incorrect Customer PIN. Please enter correct PIN.", 2000);
+                                }
+                                else if(response.data === "store_does_not_exist") {
+                                    showSnackbar("Okay this is weird. Store does not exist :(");
+                                }
+                                else if(response.data === "incorrect_store_hashid") {
+                                    showSnackbar("Hash ID of store is incorrect.", 2000);
+                                }
+                                else if(response.data.match("checkout_successful")) {
+                                    // They checkout was successful
+                                    showSnackbar("Order Placed successfully!", 2000);
+
+                                    // Clear cart after order is placed
+                                    this.cart = [];
+
+                                    // Redirect the page after 1 second
+                                    setTimeout(function () {
+                                        window.location.replace(response.data);
+                                    }, 1000);
+                                }
+                                else {
+                                    console.log(response.data);
+                                    showSnackbar("Something unknown happened!", 1000);
+                                }
+
+                            })
+                            .catch(function (response) {
+                                console.log(response.data);
+                                showSnackbar("Error in placing order!", 1000);
+                            })
+                            .then(function () {
+                                // finally block
+                            });
+                    }
+                    else if(this.cart.length == 0) {
+                        showSnackbar("Add something to cart first!", 1500);
+                    }
+                    else if(!this.customer_pin) {
+                        showSnackbar("Enter your Customer PIN", 2000);
+                    }
+                    else {
+                        showSnackbar("There is some problem with your cart :( Please order from reception.", 1500);
+                    }
+                },
             },
 
     }
