@@ -267,7 +267,6 @@
 
                 // for removing item from cart
                 removeFromCart: function (item) {
-                    console.log("executing this!!");
                     if (this.cart.length == 0) {
                         return;
                     } else {
@@ -336,7 +335,8 @@
                                     showSnackbar("Order Placed successfully!", 2000);
 
                                     // Clear cart after order is placed
-                                    this.cart = [];
+                                    localStorage.setItem('cart', []);
+                                    localStorage.setItem('sum', 0);
 
                                     // Redirect the page after 1 second
                                     setTimeout(function () {
@@ -350,7 +350,7 @@
 
                             })
                             .catch(function (response) {
-                                console.log(response.data);
+                                console.log(response);
                                 showSnackbar("Error in placing order!", 1000);
                             })
                             .then(function () {
