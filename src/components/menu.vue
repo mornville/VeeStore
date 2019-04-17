@@ -55,7 +55,6 @@
                         </div>
                     </div>
                     <div class="col-md-12 animate-box text-center">
-                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost</p>
                         <p><a href="#" class="btn btn-primary btn-outline btn-md" data-toggle="modal"
                               data-target="#exampleModalLong">View Cart</a></p>
                     </div>
@@ -117,7 +116,7 @@
         </div>
 
         <!-- Snackbar -->
-        <div id="snackbar">Added To Cart..</div>
+        <div id="snackbar">Added To Cart</div>
 
         <search></search>
 
