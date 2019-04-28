@@ -1,5 +1,5 @@
 <template>
-  <input type="search" v-model="value" :placeholder="placeholder">
+  <input type="search" v-model="value" :placeholder="placeholder" class="searchTerm"  >
 </template>
 <script>
 import Fuse from 'fuse.js'
@@ -31,7 +31,7 @@ export default {
     },
     defaultAll: {
       type: Boolean,
-      default: true
+      default: false
     },
     list: {
       type: Array
@@ -169,3 +169,21 @@ export default {
   }
 }
 </script>
+
+<style>
+.searchTerm {
+  width: 50%;
+  border: 3px solid #00B4CC;
+  border-right: none;
+  padding: 5px;
+  height: 20px;
+  border-radius: 50px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+  padding: 20px;
+}
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+</style>

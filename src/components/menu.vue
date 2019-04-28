@@ -1,6 +1,34 @@
 <template>
 
     <div class="ro">
+    <br><br>
+        <div class="ro">
+            <div class="col-xl-" >
+                 <div class="md:w-1/2 center bg-teal-light min-h-screen overflow-scroll">
+                            <p class="text-grey-darkest px-12">Search For the Dish You Love <span
+                                    class="fa fa-heart"> </span></p>
+                            <div class="flex flex-col pt-8">
+                                <VueFuse placeholder="Type Here To Search" event-name="results" :list="dish" :keys="['name']"
+                                         class="w-64 text-center h-8 border rounded-lg center" />
+                            </div>
+
+                            <ul class="list pl0 mt0 measure center" style="padding:40px">
+                                <li class="flex items-center lh-copy pa3 ph0-l bb b--black-10" v-for="i in results"
+                                    :key="i.name">
+                                    <img class="w2 h2 w3-ns h3-ns br-100" :src="i.image"/>
+                                    <div class="pl3 flex-auto">
+                                        <span class="f6 db black-70"> {{ i.name }} </span>
+                                         <span class="f6 db black-70">&nbsp;&#8377;{{ i.price }}</span>
+                                    </div>
+                                    <div>
+                                        <a href="tel:" class="f6 link blue hover-dark-gray" style="cursor:pointer"
+                                                       v-on:click.prevent="addToCart(i)">Add To Cart</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+            </div>
+        </div>
 
         <div class="colorlib-menu" style="font-family: 'Montserrat', sans-serif;">
             <div class="container">
@@ -132,7 +160,6 @@
         <!-- Snackbar -->
         <div id="snackbar">Added To Cart</div>
 
-        <search></search>
 
         <!-- endApp -->
     </div>
@@ -140,7 +167,8 @@
 </template>
 
 <script>
-    import search from './search.vue';
+    import VueFuse from './VueFuse.vue';
+
     import _ from 'lodash';
     import axios from 'axios';
     import api_endpoint from '../api_endpoint.js';
@@ -167,7 +195,8 @@
         name: 'm',
         components:
             {
-                search
+                //from search
+                VueFuse
             },
         mounted() {
             //cartItems in localStorage
@@ -190,7 +219,7 @@
             }
             // fetching menu items and filtering by category
             axios.post(api_endpoint.store)
-                .then(response => (this.starter = response.data["items"], this.type = _.uniqBy(this.starter, 'category'), this.store_hashid = response.data['store_hashid']));
+                .then(response => (this.starter = response.data["items"], this.type = _.uniqBy(this.starter, 'category'), this.store_hashid = response.data['store_hashid'], this.dish = response.data["items"]));
 
         },
         name: 'men',
@@ -203,7 +232,11 @@
                 customer_pin_enabled: false,
                 checkout_enabled: true,
                 customer_pin:null,
-                store_hashid: null
+                store_hashid: null,
+                //from search
+                results: [],
+                dish: [],
+
             }
 
         },
@@ -222,6 +255,14 @@
         },
         methods:
             {
+                //from search
+                  runSearch() {
+                    this.$search('John', this.dish, {keys: ['category']}).then(result => {
+                    this.results = result
+                     })
+                },
+
+
                 addToCart: function (item) {
                     showSnackbar("Added to cart", 1000);
 
@@ -368,7 +409,12 @@
                     }
                 },
             },
-
+            //from search
+      created() {
+            this.$on('results', results => {
+                this.results = results
+            })
+        }
     }
 </script>
 
@@ -427,7 +473,34 @@
         border-radius: 50%;
         cursor: pointer;
     }
+    /*from search*/
+      .search {
+        box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11), 0 5px 15px 0 rgba(0, 0, 0, 0.08);
+        padding: 13px;
+        font-size: 20px;
 
+
+        color: white;
+        cursor: pointer;
+
+
+    }
+
+    .center {
+        margin: auto;
+        text-align: center;
+    }
+
+    .fuse {
+        position: sticky;
+        top: 18px;
+        left: 70px;
+    }
+
+    input:active body {
+        display: none !important;
+    }
+    /* end search */
     .col {
         border: 1px solid black;
     }
