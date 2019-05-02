@@ -367,9 +367,13 @@
                             .then(function (response) {
                                 if (response.data === "customer_does_not_exist") {
                                     showSnackbar("Incorrect Customer PIN. Please enter correct PIN.", 2000);
+                                      document.getElementById("lulz").disabled = false;  
+                    document.getElementById("lulz").style.cursor = "auto";
                                 }
                                 else if(response.data === "store_does_not_exist") {
                                     showSnackbar("Okay this is weird. Store does not exist :(");
+                                      document.getElementById("lulz").disabled = false;  
+                    document.getElementById("lulz").style.cursor = "auto";
                                 }
                                 else if(response.data === "incorrect_store_hashid") {
                                     showSnackbar("Hash ID of store is incorrect.", 2000);
@@ -377,6 +381,8 @@
                                 else if(response.data.match("checkout_successful")) {
                                     // They checkout was successful
                                     showSnackbar("Order Placed successfully!", 2000);
+                                      document.getElementById("lulz").disabled = true;  
+                    document.getElementById("lulz").style.cursor = "auto";
 
                                     // Clear cart after order is placed
                                     localStorage.setItem('cart', []);
