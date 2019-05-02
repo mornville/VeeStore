@@ -147,7 +147,7 @@
                     <!-- modalFooter -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-small btn-round" data-dismiss="modal">BUY MORE?</button>
-                        <button @click="checkout()" class="btn-ghost btn-small btn-round">CHECKOUT (&#8377;{{ sum }})</button>
+                        <button @click="checkout()" id="lulz" class="btn-ghost btn-small btn-round">CHECKOUT (&#8377;{{ sum }})</button>
 
                     </div>
 
@@ -353,8 +353,11 @@
                     3. Verify the PIN
                     4. Redirect to checkout successful page.
                     */
+                   
                     if(this.cart.length > 0 && this.customer_pin) {
                         showSnackbar("Placing your order...");
+                    document.getElementById("lulz").disabled = true;  
+                    document.getElementById("lulz").style.cursor = "auto";
 
                         axios.post(api_endpoint.checkout, {
                             "customer_pin": this.customer_pin,
