@@ -1,5 +1,13 @@
 <template>
-  <input type="search" v-model="value" :placeholder="placeholder" class="searchTerm"  >
+  <div class="row">
+    <div class="col-12">
+      <form class="uk-search uk-search-default">
+        <span class="uk-search-icon-flip" uk-search-icon></span>
+        <input class="uk-search-input" type="search" v-model="value" :placeholder="placeholder">
+      
+  </form>
+    </div>
+  </div>
 </template>
 <script>
 import Fuse from 'fuse.js'
@@ -171,19 +179,6 @@ export default {
 </script>
 
 <style>
-.searchTerm {
-  width: 50%;
-  border: 3px solid #00B4CC;
-  border-right: none;
-  padding: 5px;
-  height: 20px;
-  border-radius: 50px 0 0 5px;
-  outline: none;
-  color: #9DBFAF;
-  padding: 20px;
-}
-.searchTerm:focus{
-  color: #00B4CC;
-}
+
 
 </style>

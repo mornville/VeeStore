@@ -1,14 +1,14 @@
 <template>
-    <div id="app">
+    <div id="app" >
         <!-- Header store name with background -->
-        <appHeader style="padding:20px"></appHeader>
+        <appHeader></appHeader>
         <appMenu></appMenu>
     </div>
 </template>
 
 <script>
-    import appHeader from "./components/header.vue";
-    import appMenu from "./components/menu.vue";
+    import appHeader from "./components/header-uikit.vue";
+    import appMenu from "./components/Menu-uikit.vue";
 
     export default {
         name: "app",
