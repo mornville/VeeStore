@@ -19,8 +19,7 @@
                                 v-for="(item,index) in starter"
                                 :key="index"
                                 v-if="item['category']==i['category']"
-                            >   
-
+                            >
                                 <!-- begin::item card -->
                                 <div
                                     class="uk-card uk-text-left uk-text-left uk-card-default uk-card-hover"
@@ -30,26 +29,28 @@
                                         <li class="flex items-center lh-copy ph0-l">
                                             <img
                                                 class="uk-margin-small-right"
-                                                width="100"
-                                                height="100"
+                                                width="120"
+                                                height="120"
                                                 :src="item.image"
                                             >
 
-                                            <div class="pl3 flex-auto uk-text-left">
-                                                <h3
+                                            <div class="uk-card-body" style="padding: 8px 8px;">
+                                                <h4
                                                     class="uk-card-title"
-                                                    style="font-size:1em;color:black"
-                                                >
-                                                    {{ item.name }}
-                                                    <br>
-                                                    <span class="uk-text-meta">{{ item.description}}</span>
-                                                </h3>
+                                                    style="font-size:1em;margin-bottom:0px;"
+                                                >{{item.name}}</h4>
+                                                <p
+                                                    class="uk-text-meta"
+                                                    style="margin-top:0px;"
+                                                >{{item.description}}</p>
+                                                <p
+                                                    class="uk-text-meta uk-text-success"
+                                                >&#8377; {{ item.price }}</p>
                                             </div>
                                         </li>
                                     </a>
                                 </div>
                                 <!-- end::item card -->
-
 
                                 <!--begin:: item modal-->
                                 <div :id="'modal-sections'+item.itemID" uk-modal>
@@ -80,7 +81,6 @@
                                         </div>
                                         <div class="uk-modal-footer uk-text-center">
                                             <a
-                                                href="tel:"
                                                 class="uk-button uk-button-primary"
                                                 v-on:click.prevent="addToCart(item)"
                                             >Add To Cart</a>
@@ -88,7 +88,6 @@
                                     </div>
                                 </div>
                                 <!--end:: item modal-->
-                                
                             </div>
                         </div>
                     </div>
@@ -200,7 +199,7 @@
                             type="button"
                             class="uk-button uk-button-small uk-button-secondary"
                             data-dismiss="modal"
-                        >BUY MORE?</button>
+                        >CLOSE</button>
                         <button
                             @click="checkout()"
                             id="lulz"
