@@ -8,47 +8,29 @@
                     <div class="col-md-12" v-for="(i,index) in type" :key="index">
                         <br>
                         <br>
-                        <h3
-                            class="uk-text-center uk-text-uppercase"
-                            style="font-family: 'Montserrat', sans-serif;color:black;"
-                        >{{ i.category }}</h3>
+                        <h3 class="uk-text-center uk-text-uppercase" style="font-family: 'Montserrat', sans-serif;color:black;">{{ i.category }}</h3>
                         <hr class="uk-divider-small uk-text-center">
-
                         <div class="uk-child-width-1-2@s uk-grid-match" uk-grid>
-                            <div
-                                v-for="(item,index) in starter"
-                                :key="index"
-                                v-if="item['category']==i['category']"
-                            >
+                            <div v-for="(item,index) in starter" :key="index" v-if="item['category']==i['category']">
                                 <!-- begin::item card -->
-                                <div
-                                    class="uk-card uk-text-left uk-text-left uk-card-default uk-card-hover"
-                                    style="color:black;border-radius:10px;"
-                                >
-                                    <a class :href="'#modal-sections'+item.itemID" uk-toggle>
-                                        <li class="flex items-center lh-copy ph0-l">
-                                            <img
-                                                class="uk-margin-small-right"
-                                                width="120"
-                                                height="120"
-                                                :src="item.image"
-                                            >
+                                <div class="uk-card uk-text-left uk-text-left uk-card-default uk-card-hover" style="color:black;border-radius:10px;" >
+                                   
+                                        <li class="flex items-center lh-copy ph0-l uk-margin-small-top">
+                                            <img class="uk-margin-small-right" width="120" height="120" :src="item.image" >
 
                                             <div class="uk-card-body" style="padding: 8px 8px;">
-                                                <h4
-                                                    class="uk-card-title"
-                                                    style="font-size:1em;margin-bottom:0px;"
-                                                >{{item.name}}</h4>
-                                                <p
-                                                    class="uk-text-meta"
-                                                    style="margin-top:0px;"
-                                                >{{item.description}}</p>
-                                                <p
-                                                    class="uk-text-meta uk-text-success"
-                                                >&#8377; {{ item.price }}</p>
+                                            
+                                                <h4 class="uk-card-title" style="font-size:1em;margin-bottom:0px;">{{item.name}}  <span class="uk-text-success uk-margin-small-left"> &#8377;{{ item.price}}</span> </h4>
+                                                <p class="uk-text-meta" style="margin-top:0px;">{{item.description}}
+                                                    <br><br>
+                                                    <a href="" class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-size:.8em" uk-icon="cart" v-on:click.prevent="addToCart(item)">Add To Cart &nbsp;</a>
+                                                    
+                                                </p>
+                                                
+                                                <p class="uk-text-meta"></p>
                                             </div>
                                         </li>
-                                    </a>
+                                  
                                 </div>
                                 <!-- end::item card -->
 
