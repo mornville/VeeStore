@@ -21,10 +21,12 @@
                                             <div class="uk-card-body" style="padding: 8px 8px;">
                                             
                                                 <h4 class="uk-card-title" style="font-size:1em;margin-bottom:0px;">{{item.name}}  <span class="uk-text-success uk-margin-small-left"> &#8377;{{ item.price}}</span> </h4>
-                                                <p class="uk-text-meta" style="margin-top:0px;">{{item.description}}
+                                                <p class="uk-text-meta .uk-text-truncate" style="margin-top:0px;">{{item.description}}
                                                     <br><br>
-                                                    <a href="" class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-size:.8em" uk-icon="cart" v-on:click.prevent="addToCart(item)">Add To Cart &nbsp;</a>
-                                                    
+                                                
+                                                <button class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-family: 'Montserrat', sans-serif;;font-size:1em"  v-on:click.prevent="addToCart(item)" :id="'add'+item.itemID" >
+                                                      <a href="" class=""  uk-icon="cart"> Add To Cart &nbsp;</a>
+                                                </button>                                                    
                                                 </p>
                                                 
                                                 <p class="uk-text-meta"></p>
@@ -102,15 +104,7 @@
         <!-- end::Button trigger modal -->
 
         <!-- begin::Modal -->
-        <div
-            class="modal fade"
-            style="text-align:center"
-            id="exampleModalLong"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLongTitle"
-            aria-hidden="true"
-        >
+        <div  class="modal fade" style="text-align:center" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"  aria-hidden="true" >
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -219,7 +213,9 @@ function showSnackbar(text, time) {
     setTimeout(function() {
         x.className = x.className.replace("show", "");
     }, time);
+
 }
+
 
 // For Django post requests
 var csrftoken = Cookies.get("csrftoken");
@@ -314,7 +310,31 @@ export default {
         },
 
         addToCart: function(item) {
-            showSnackbar("Added to cart", 1000);
+
+            //animation add to cart 
+            var anim = document.getElementById('add'+item.itemID);
+            var data = anim.innerHTML;
+            anim.innerHTML = "Adding ... ";
+            anim.style.cursor = "no-drop";
+            anim.disabled = true;
+           
+            setTimeout(function() 
+            {
+                anim.innerHTML = data;
+                anim.className += "uk-margin-small-left uk-button uk-button-default uk-button-small";
+                anim.style.cursor = "pointer";
+                anim.disabled = false;
+            },1000);
+
+            setTimeout(function() 
+            {
+                showSnackbar("Added to cart", 1000);
+               
+            },1000);
+             
+
+
+            
 
             if (this.cart.length === 0) {
                 item.quantity += 1;
@@ -343,6 +363,8 @@ export default {
             // Saving sum to localStorage After adding to cart
             const parse = JSON.stringify(this.sum);
             localStorage.setItem("sum", parse);
+
+            
         },
 
         quantity: function(item) {
