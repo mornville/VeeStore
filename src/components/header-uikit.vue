@@ -68,8 +68,9 @@
                                                 </p>
                                             </div>
                                             <div class="uk-modal-footer uk-text-center">
-                                                <a href="tel:" class="uk-button uk-button-primary"
-                                                       v-on:click.prevent="addToCart(i)">Add To Cart</a>
+                                                 <button class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-family: 'Montserrat', sans-serif;;font-size:1em"  v-on:click.prevent="addToCart(i)" :id="'mod'+i.itemID" >
+                                                      <a href="" class=""  uk-icon="cart" style="text-decoration:none;"> Add To Cart &nbsp;</a>
+                                                </button>   
                                             </div>
                                         </div>
                                     </div>
@@ -192,7 +193,28 @@
 
 
                 addToCart: function (item) {
-                    showSnackbar("Added to cart", 1000);
+                    //animation add to cart 
+            var anim = document.getElementById('mod'+item.itemID);
+            var data = anim.innerHTML;
+            anim.innerHTML = "Adding ... ";
+            anim.style.cursor = "no-drop";
+            anim.disabled = true;
+           
+            setTimeout(function() 
+            {
+                anim.innerHTML = data;
+                anim.className += "uk-margin-small-left uk-button uk-button-default uk-button-small";
+                anim.style.cursor = "pointer";
+                anim.disabled = false;
+            },1000);
+
+            setTimeout(function() 
+            {
+                showSnackbar("Added to cart", 1000);
+               
+            },1000);
+             
+
 
                     if (this.cart.length === 0) {
                         item.quantity += 1;

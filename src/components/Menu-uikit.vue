@@ -64,10 +64,9 @@
                                             </p>
                                         </div>
                                         <div class="uk-modal-footer uk-text-center">
-                                            <a
-                                                class="uk-button uk-button-primary"
-                                                v-on:click.prevent="addToCart(item)"
-                                            >Add To Cart</a>
+                                             <button class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-family: 'Montserrat', sans-serif;;font-size:1em"  v-on:click.prevent="addToCart(item)" :id="'add'+item.itemID" >
+                                                      <a href="" class=""  uk-icon="cart"> Add To Cart &nbsp;</a>
+                                                </button>   
                                         </div>
                                     </div>
                                 </div>
