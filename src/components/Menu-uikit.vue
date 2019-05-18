@@ -13,8 +13,9 @@
                         <div class="uk-child-width-1-2@s uk-grid-match" uk-grid>
                             <div v-for="(item,index) in starter" :key="index" v-if="item['category']==i['category']">
                                 <!-- begin::item card -->
+                                
                                 <div class="uk-card uk-text-left uk-text-left uk-card-default uk-card-hover" style="color:black;border-radius:10px;" >
-                                   
+                                     <a class :href="'#modal-sections'+item.itemID" uk-toggle>
                                         <li class="flex items-center lh-copy ph0-l uk-margin-small-top">
                                             <img class="uk-margin-small-right" width="120" height="120" :src="item.image" >
 
@@ -32,7 +33,12 @@
                                                 <p class="uk-text-meta"></p>
                                             </div>
                                         </li>
+                                     </a>
                                   
+
+                                        
+                                  
+
                                 </div>
                                 <!-- end::item card -->
 
@@ -64,7 +70,7 @@
                                             </p>
                                         </div>
                                         <div class="uk-modal-footer uk-text-center">
-                                             <button class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-family: 'Montserrat', sans-serif;;font-size:1em"  v-on:click.prevent="addToCart(item)" :id="'add'+item.itemID" >
+                                             <button class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-family: 'Montserrat', sans-serif;;font-size:1em"  v-on:click.prevent="addToCart(item)" :id="'addmodal'+item.itemID" >
                                                       <a href="" class=""  uk-icon="cart"> Add To Cart &nbsp;</a>
                                                 </button>   
                                         </div>
@@ -323,6 +329,21 @@ export default {
                 anim.className += "uk-margin-small-left uk-button uk-button-default uk-button-small";
                 anim.style.cursor = "pointer";
                 anim.disabled = false;
+            },1000);
+
+             //animation add to cart modal 
+            var animod = document.getElementById('addmodal'+item.itemID);
+            var data = animod.innerHTML;
+            animod.innerHTML = "Adding ... ";
+            animod.style.cursor = "no-drop";
+            animod.disabled = true;
+           
+            setTimeout(function() 
+            {
+                animod.innerHTML = data;
+                animod.className += "uk-margin-small-left uk-button uk-button-default uk-button-small";
+                animod.style.cursor = "pointer";
+                animod.disabled = false;
             },1000);
 
             setTimeout(function() 
