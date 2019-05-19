@@ -25,7 +25,7 @@
                                                 <p class="uk-text-meta .uk-text-truncate" style="margin-top:0px;">{{item.description}}
                                                     <br><br>
                                                 
-                                                <button class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-family: 'Montserrat', sans-serif;;font-size:1em"  v-on:click.prevent="addToCart(item)" :id="'add'+item.itemID" >
+                                                <button class="uk-margin-small-left uk-button uk-button-default uk-button-small" style="font-family: 'Montserrat', sans-serif;;font-size:1em"  v-on:click.prevent.stop="addToCart(item)" :id="'add'+item.itemID" >
                                                       <a href="" class=""  uk-icon="cart"> Add To Cart &nbsp;</a>
                                                 </button>                                                    
                                                 </p>
@@ -329,7 +329,7 @@ export default {
                 anim.className += "uk-margin-small-left uk-button uk-button-default uk-button-small";
                 anim.style.cursor = "pointer";
                 anim.disabled = false;
-            },1000);
+            },500);
 
              //animation add to cart modal 
             var animod = document.getElementById('addmodal'+item.itemID);
@@ -344,13 +344,13 @@ export default {
                 animod.className += "uk-margin-small-left uk-button uk-button-default uk-button-small";
                 animod.style.cursor = "pointer";
                 animod.disabled = false;
-            },1000);
+            },500);
 
             setTimeout(function() 
             {
                 showSnackbar("Added to cart", 1000);
                
-            },1000);
+            },500);
              
 
 
